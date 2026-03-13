@@ -21,6 +21,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.IntentCompat;
@@ -61,7 +62,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import io.noties.markwon.Markwon;
-import io.noties.markwon.ext.tables.TablePlugin;
+import top.yztz.msggo.util.MarkwonFactory;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -225,6 +226,7 @@ public class MainActivity extends AppCompatActivity implements HomeFrag.DataLoad
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
         SettingManager.init(this);
+        AppCompatDelegate.setDefaultNightMode(SettingManager.getDarkMode());
 
         LocaleUtils.applyLocale();
         excelPickerLauncher = registerForActivityResult(
@@ -277,13 +279,11 @@ public class MainActivity extends AppCompatActivity implements HomeFrag.DataLoad
         TextView textView = new TextView(this);
         int padding = (int) (16 * getResources().getDisplayMetrics().density);
         textView.setPadding(padding, padding / 2, padding, padding);
-        textView.setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodySmall);
+        textView.setTextAppearance(R.style.TextAppearance_Material3_BodySmall);
         textView.setLineSpacing(0, 1.2f);
         scrollView.addView(textView);
 
-        Markwon markwon = Markwon.builder(this)
-                .usePlugin(TablePlugin.create(this))
-                .build();
+        Markwon markwon = MarkwonFactory.create(this);
 
         String content = FileUtil.loadFromRaw(this, res_id);
 //        content = content.replaceFirst("(?m)^#\\s.*(?:\\r?\\n)?", "");

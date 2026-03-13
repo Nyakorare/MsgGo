@@ -21,6 +21,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
 import java.util.HashMap;
 
 public class SettingManager {
@@ -37,6 +39,15 @@ public class SettingManager {
     private static final String LANGUAGE_KEY = "language_v1";
     private static final String PRIVACY_ACCEPTED_KEY = "privacy_accepted";
     private static final String DISCLAIMER_ACCEPTED_KEY = "disclaimer_accepted";
+    private static final String DARK_MODE_KEY = "dark_mode_v1";
+    private static final String SENSITIVE_WORD_FILTER_KEY = "sensitive_word_filter_v1";
+
+    /** 深色模式值常量：跟随系统 */
+    public static final int DARK_MODE_SYSTEM = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+    /** 深色模式值常量：始终浅色 */
+    public static final int DARK_MODE_LIGHT = AppCompatDelegate.MODE_NIGHT_NO;
+    /** 深色模式值常量：始终深色 */
+    public static final int DARK_MODE_DARK = AppCompatDelegate.MODE_NIGHT_YES;
 
 
     // Default values
@@ -48,6 +59,8 @@ public class SettingManager {
         DefaultPropMap.put(LANGUAGE_KEY, Settings.LANGUAGE_DEFAULT);
         DefaultPropMap.put(PRIVACY_ACCEPTED_KEY, Settings.PRIVACY_ACCEPTED_DEFAULT);
         DefaultPropMap.put(DISCLAIMER_ACCEPTED_KEY, Settings.DISCLAIMER_ACCEPTED_DEFAULT);
+        DefaultPropMap.put(DARK_MODE_KEY, DARK_MODE_SYSTEM);
+        DefaultPropMap.put(SENSITIVE_WORD_FILTER_KEY, true);
     }
 
     public static void init(Context context) {
@@ -124,6 +137,22 @@ public class SettingManager {
 
     public static void setRandomizeDelay(boolean flag) {
         mEditor.putBoolean(SEND_DELAY_RANDOMIZATION_KEY, flag).apply();
+    }
+
+    public static int getDarkMode() {
+        return mSp.getInt(DARK_MODE_KEY, DARK_MODE_SYSTEM);
+    }
+
+    public static void setDarkMode(int mode) {
+        mEditor.putInt(DARK_MODE_KEY, mode).apply();
+    }
+
+    public static boolean isSensitiveWordFilterEnabled() {
+        return mSp.getBoolean(SENSITIVE_WORD_FILTER_KEY, true);
+    }
+
+    public static void setSensitiveWordFilterEnabled(boolean enabled) {
+        mEditor.putBoolean(SENSITIVE_WORD_FILTER_KEY, enabled).apply();
     }
 
 }

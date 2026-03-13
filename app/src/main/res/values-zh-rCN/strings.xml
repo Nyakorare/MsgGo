@@ -63,9 +63,22 @@
     <string name="sms_cost_summary">用于计算发送费用</string>
     <string name="category_storage">存储</string>
     <string name="clear_cache">清除缓存</string>
+    <string name="category_appearance">界面</string>
+    <string name="dark_mode">深色模式</string>
+    <string name="dark_mode_summary_on">始终开启</string>
+    <string name="dark_mode_summary_off">始终关闭</string>
+    <string name="dark_mode_summary_system">跟随系统</string>
+    <string name="dark_mode_option_on">开启</string>
+    <string name="dark_mode_option_off">关闭</string>
+    <string name="dark_mode_option_system">跟随系统</string>
     <string name="category_others">其他</string>
     <string name="debug_log">调试日志</string>
     <string name="about_app">关于应用</string>
+    <string name="sensitive_word_filter">敏感词检测</string>
+    <string name="sensitive_word_filter_summary">过滤包含敏感词的短信</string>
+    <string name="sensitive_word_filter_dev_title">仅供开发测试使用</string>
+    <string name="sensitive_word_filter_dev_msg">关闭敏感词检测功能仅供开发和测试使用。发送包含敏感词的消息可能被运营商拦截或违反相关法规，请谨慎操作。确定要关闭吗？</string>
+    <string name="disable">关闭</string>
 
     <string name="version_format">Version %s</string>
     <string name="source_code">源代码</string>

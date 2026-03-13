@@ -63,9 +63,22 @@
     <string name="sms_cost_summary">Calculate cost</string>
     <string name="category_storage">Storage</string>
     <string name="clear_cache">Clear Cache</string>
+    <string name="category_appearance">Appearance</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="dark_mode_summary_on">Always on</string>
+    <string name="dark_mode_summary_off">Always off</string>
+    <string name="dark_mode_summary_system">Follow system</string>
+    <string name="dark_mode_option_on">On</string>
+    <string name="dark_mode_option_off">Off</string>
+    <string name="dark_mode_option_system">Follow System</string>
     <string name="category_others">Others</string>
     <string name="debug_log">Debug Logs</string>
     <string name="about_app">About App</string>
+    <string name="sensitive_word_filter">Sensitive Word Filter</string>
+    <string name="sensitive_word_filter_summary">Block messages containing sensitive words</string>
+    <string name="sensitive_word_filter_dev_title">For Development Use Only</string>
+    <string name="sensitive_word_filter_dev_msg">Disabling the sensitive word filter is intended for development and testing only. Sending messages with sensitive words may be intercepted or violate regulations. Are you sure you want to disable it?</string>
+    <string name="disable">Disable</string>
 
     <!-- About Activity -->
     <string name="version_format">Version %s</string>

@@ -44,6 +44,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -56,6 +57,7 @@ import top.yztz.msggo.data.SettingManager;
 import top.yztz.msggo.services.SMSSender;
 
 import top.yztz.msggo.util.FileUtil;
+import top.yztz.msggo.util.SensitiveWordUtil;
 import top.yztz.msggo.util.TextParser;
 import top.yztz.msggo.util.ToastUtil;
 import top.yztz.msggo.adapters.CheckboxAdapter;
@@ -231,8 +233,7 @@ public class ChooserActivity extends AppCompatActivity {
             tv.setPadding(0, 16, 0, 16);
             tv.setMaxLines(1);
             tv.setEllipsize(TextUtils.TruncateAt.END);
-            // Use Material 3 text appearance
-            tv.setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelLarge);
+            tv.setTextAppearance(R.style.TextAppearance_Material3_LabelLarge);
             layoutHeader.addView(tv);
         }
 
@@ -313,7 +314,8 @@ public class ChooserActivity extends AppCompatActivity {
         }
 
         Message message = messages.get(index);
-        List<String> sensitiveWords = top.yztz.msggo.util.SensitiveWordUtil.findAll(message.getContent());
+        List<String> sensitiveWords = SettingManager.isSensitiveWordFilterEnabled() ?
+                SensitiveWordUtil.findAll(message.getContent()) : Collections.EMPTY_LIST;
 
         if (sensitiveWords.isEmpty()) {
             // No sensitive words, proceed to next message

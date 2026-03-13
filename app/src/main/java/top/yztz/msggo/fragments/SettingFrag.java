@@ -46,6 +46,7 @@ import java.util.Locale;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.materialswitch.MaterialSwitch;
+import androidx.appcompat.app.AppCompatDelegate;
 import com.google.android.material.slider.Slider;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.transition.MaterialSharedAxis;
@@ -62,10 +63,10 @@ import top.yztz.msggo.util.ToastUtil;
 public class SettingFrag extends Fragment {
     private static final String TAG = "SettingFrag";
     private Context context;
-    private MaterialSwitch mSwitchAutoEditor, mSwitchRandomizeDelay;
+    private MaterialSwitch mSwitchAutoEditor, mSwitchRandomizeDelay, mSwitchSensitiveWord;
     private MaterialCardView mCardClearCache;
-    private View mRowExportLog, mRowAboutApp, mRowLanguage, mRowCheckUpdate;
-    private TextView mTvCache, mTvDelayValue, mTvSmsRateValue, mTvLanguage;
+    private View mRowExportLog, mRowAboutApp, mRowLanguage, mRowCheckUpdate, mRowDarkMode;
+    private TextView mTvCache, mTvDelayValue, mTvSmsRateValue, mTvLanguage, mTvDarkModeSummary;
     private LinearLayout mCardSmsRate;
     private boolean isUpdatingUI = false;
     private Slider mSliderDelay;
@@ -100,6 +101,9 @@ public class SettingFrag extends Fragment {
         mRowLanguage = view.findViewById(R.id.row_language);
         mTvLanguage = view.findViewById(R.id.tv_language);
         mRowCheckUpdate = view.findViewById(R.id.row_check_update);
+        mRowDarkMode = view.findViewById(R.id.row_dark_mode);
+        mTvDarkModeSummary = view.findViewById(R.id.tv_dark_mode_summary);
+        mSwitchSensitiveWord = view.findViewById(R.id.switch_sensitive_word);
 
         mSliderDelay = view.findViewById(R.id.slider_delay);
         mSliderDelay.setValueFrom(Settings.SEND_DELAY_MIN);
@@ -136,6 +140,56 @@ public class SettingFrag extends Fragment {
         mSliderDelay.setLabelFormatter(value -> {
             float seconds = value / 1000f; // 转换回秒数
             return String.format(Locale.getDefault(), "%.1fs", seconds);
+        });
+
+        // Sensitive Word Filter
+        mSwitchSensitiveWord.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isUpdatingUI) return;
+            if (!isChecked) {
+                // 如果用户试图关闭，弹窗警告
+                new MaterialAlertDialogBuilder(context)
+                        .setTitle(getString(R.string.sensitive_word_filter_dev_title))
+                        .setMessage(getString(R.string.sensitive_word_filter_dev_msg))
+                        .setPositiveButton(getString(R.string.disable), (dialog, which) -> {
+                            SettingManager.setSensitiveWordFilterEnabled(false);
+                            showInfo();
+                        })
+                        .setNegativeButton(getString(R.string.cancel), (dialog, which) -> {
+                            // 还原开关状态
+                            isUpdatingUI = true;
+                            mSwitchSensitiveWord.setChecked(true);
+                            isUpdatingUI = false;
+                        })
+                        .setCancelable(false)
+                        .show();
+            } else {
+                SettingManager.setSensitiveWordFilterEnabled(true);
+                showInfo();
+            }
+        });
+
+        // Dark Mode
+        mRowDarkMode.setOnClickListener(v -> {
+            String[] options = {
+                    getString(R.string.dark_mode_option_system),
+                    getString(R.string.dark_mode_option_off),
+                    getString(R.string.dark_mode_option_on)
+            };
+            int checkedItem = SettingManager.getDarkMode();
+            new MaterialAlertDialogBuilder(context)
+                    .setTitle(getString(R.string.dark_mode))
+                    .setSingleChoiceItems(options, checkedItem, (dialog, which) -> {
+                        SettingManager.setDarkMode(which);
+                        int mode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+                        if (which == SettingManager.DARK_MODE_LIGHT) mode = AppCompatDelegate.MODE_NIGHT_NO;
+                        else if (which == SettingManager.DARK_MODE_DARK) mode = AppCompatDelegate.MODE_NIGHT_YES;
+                        AppCompatDelegate.setDefaultNightMode(mode);
+//                        getActivity().recreate();
+                        dialog.dismiss();
+                        showInfo();
+                    })
+                    .setNegativeButton(getString(R.string.cancel), null)
+                    .show();
         });
 
         // SMS Rate
@@ -304,6 +358,17 @@ public class SettingFrag extends Fragment {
         // Set switches
         mSwitchAutoEditor.setChecked(SettingManager.autoEnterEditor());
         mSwitchRandomizeDelay.setChecked(SettingManager.isRandomizeDelay());
+        mSwitchSensitiveWord.setChecked(SettingManager.isSensitiveWordFilterEnabled());
+
+        // Display dark mode summary
+        int darkMode = SettingManager.getDarkMode();
+        if (darkMode == SettingManager.DARK_MODE_LIGHT) {
+            mTvDarkModeSummary.setText(getString(R.string.dark_mode_summary_off));
+        } else if (darkMode == SettingManager.DARK_MODE_DARK) {
+            mTvDarkModeSummary.setText(getString(R.string.dark_mode_summary_on));
+        } else {
+            mTvDarkModeSummary.setText(getString(R.string.dark_mode_summary_system));
+        }
 
         // Display number column
         // mTvNumberColumn.setText(TextUtils.isEmpty(numberColumn) ? "未选择" : numberColumn);

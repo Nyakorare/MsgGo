@@ -27,9 +27,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import io.noties.markwon.Markwon;
-import io.noties.markwon.ext.tables.TablePlugin;
 import top.yztz.msggo.R;
 import top.yztz.msggo.util.FileUtil;
+import top.yztz.msggo.util.MarkwonFactory;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -91,9 +91,7 @@ public class MarkdownActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(v -> finish());
 
         TextView tvContent = findViewById(R.id.tv_markdown_content);
-        Markwon markwon = Markwon.builder(this)
-                .usePlugin(TablePlugin.create(this))
-                .build();
+        Markwon markwon = MarkwonFactory.create(this);
 
         String finalContent;
         if (!TextUtils.isEmpty(content)) {

@@ -36,6 +36,7 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/topAppBar"
+                style="@style/Widget.Material3.Toolbar.Surface"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="?attr/actionBarSize"
@@ -90,7 +91,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
                                 android:text="Data.xlsx"
-                                style="?attr/textAppearanceTitleSmall"
+                                style="?attr/textAppearanceBodyMedium"
+                                android:textColor="?attr/colorOnSurfaceVariant"
                                 android:maxLines="1"
                                 android:ellipsize="end"/>
                         </LinearLayout>
@@ -119,6 +121,7 @@
                                 android:layout_marginStart="8dp"
                                 android:text="SIM 1"
                                 style="?attr/textAppearanceBodyMedium"
+                                android:textColor="?attr/colorOnSurfaceVariant"
                                 android:maxLines="1"
                                 android:ellipsize="end"/>
                         </LinearLayout>
@@ -159,7 +162,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
                                 android:text="0.00"
-                                android:textAppearance="?attr/textAppearanceTitleSmall"
+                                style="?attr/textAppearanceBodyMedium"
                                 android:textColor="?attr/colorOnSurfaceVariant" />
                         </LinearLayout>
 
@@ -186,7 +189,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
                                 android:text="0 / 0"
-                                android:textAppearance="?attr/textAppearanceTitleSmall"
+                                style="?attr/textAppearanceBodyMedium"
                                 android:textColor="?attr/colorOnSurfaceVariant" />
                         </LinearLayout>
                     </LinearLayout>

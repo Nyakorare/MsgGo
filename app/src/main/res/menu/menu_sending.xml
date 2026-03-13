@@ -21,6 +21,7 @@
     <item
         android:title="opt"
         android:id="@+id/action_pause_resume"
+        app:iconTint="?attr/colorControlNormal"
         android:icon="@drawable/ic_pause"
         app:showAsAction="ifRoom" />
 </menu>
