@@ -5,6 +5,9 @@ on:
 #    - cron: '0 18 * * *' # 每天凌晨 2 点 (北京时间)
   workflow_dispatch: # 允许手动触发
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build Nightly APK
