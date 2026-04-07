@@ -58,7 +58,14 @@
     <string name="send_delay">发送间隔</string>
     <string name="send_delay_summary">设置每条短信发送后的延迟时间，规避运营商拦截</string>
     <string name="randomize_delay">随机化延迟</string>
-    <string name="randomize_delay_summary">在最小值与设定值之间取随机延迟</string>
+    <string name="randomize_delay_summary">在已设置的最小值和最大值之间取随机延迟</string>
+    <string name="random_delay_min">随机延迟最小值</string>
+    <string name="random_delay_min_summary">不能低于发送间隔</string>
+    <string name="random_delay_max">随机延迟最大值</string>
+    <string name="random_delay_max_summary">必须在随机最小值与15秒之间</string>
+    <string name="excel_row_limit">Excel发送行数上限</string>
+    <string name="excel_row_limit_summary">导入并发送的最大行数（不超过800）</string>
+    <string name="excel_row_limit_value">%1$d 行</string>
     <string name="sms_cost">短信资费</string>
     <string name="sms_cost_summary">用于计算发送费用</string>
     <string name="category_storage">存储</string>
@@ -87,6 +94,7 @@
     <string name="privacy_policy">隐私政策</string>
     <string name="license">许可证</string>
     <string name="made_by">Made with ❤️ by Yztz</string>
+    <string name="specially_modified_by">Specially modified by Glenn</string>
     <string name="visit_source_code">访问源代码</string>
     <string name="going_to_url">即将前往 %s</string>
     <string name="visit">访问</string>
@@ -140,6 +148,9 @@
     <string name="set_sms_rate_title">设置短信资费</string>
     <string name="error_invalid_rate_range">请输入 0–10 之间的数字</string>
     <string name="error_invalid_number">请输入有效的数字</string>
+    <string name="error_random_min_must_not_be_below_delay">随机最小值不能低于发送间隔，且不能超过15秒</string>
+    <string name="error_random_max_range">随机最大值必须在随机最小值与15秒之间</string>
+    <string name="error_excel_row_limit_range">请输入 %1$d 到 %2$d 之间的数字</string>
     <string name="confirm_clear_cache_msg">确定要清空应用缓存和历史记录吗？</string>
     <string name="clear">清空</string>
     <string name="cache_cleared">缓存已清空</string>
@@ -172,6 +183,8 @@
     <string name="edit_hint">写点什么吧~</string>
     <string name="save_success">保存成功</string>
     <string name="hint_sms_rate">请输入资费</string>
+    <string name="hint_delay_seconds">延迟秒数</string>
+    <string name="hint_excel_row_limit">行数上限</string>
     <string name="edit_unsaved_msg">确定不保存就离开吗？</string>
 
     <!-- Sending State -->
