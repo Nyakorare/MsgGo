@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Locale;
 
 import top.yztz.msggo.R;
+import top.yztz.msggo.data.SettingManager;
 import top.yztz.msggo.data.Settings;
 import top.yztz.msggo.exception.DataLoadFailed;
 
@@ -83,7 +84,9 @@ public class ExcelReader {
             readExcelTitle();
             //得到总行数（不包含标题）
             int lastRowNum = sheet.getLastRowNum();
-            if (lastRowNum > Settings.EXCEL_ROW_COUNT_MAX) throw new DataLoadFailed(R.string.file_too_much_row);
+//            if (lastRowNum > Settings.EXCEL_ROW_COUNT_MAX) throw new DataLoadFailed(R.string.file_too_much_row);
+            int configuredRowLimit = SettingManager.getExcelSendRowCountLimit();
+            if (lastRowNum > configuredRowLimit) throw new DataLoadFailed(R.string.file_too_much_row);
             if (lastRowNum == -1 || lastRowNum == 0) throw new DataLoadFailed(R.string.error_empty_content);
             Log.i(TAG, String.format("lastRowNum=%d, colNum=%d(%d-%d)", lastRowNum, colNum, firstRow.getFirstCellNum(), firstRow.getLastCellNum() - 1));
         } catch (IOException e) {

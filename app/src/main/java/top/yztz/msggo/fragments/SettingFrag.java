@@ -66,7 +66,9 @@ public class SettingFrag extends Fragment {
     private MaterialSwitch mSwitchAutoEditor, mSwitchRandomizeDelay, mSwitchSensitiveWord;
     private MaterialCardView mCardClearCache;
     private View mRowExportLog, mRowAboutApp, mRowLanguage, mRowCheckUpdate, mRowDarkMode;
+    private View mRowRandomDelayMin, mRowRandomDelayMax, mRowExcelRowLimit;
     private TextView mTvCache, mTvDelayValue, mTvSmsRateValue, mTvLanguage, mTvDarkModeSummary;
+    private TextView mTvRandomDelayMin, mTvRandomDelayMax, mTvExcelRowLimit;
     private LinearLayout mCardSmsRate;
     private boolean isUpdatingUI = false;
     private Slider mSliderDelay;
@@ -104,6 +106,12 @@ public class SettingFrag extends Fragment {
         mRowDarkMode = view.findViewById(R.id.row_dark_mode);
         mTvDarkModeSummary = view.findViewById(R.id.tv_dark_mode_summary);
         mSwitchSensitiveWord = view.findViewById(R.id.switch_sensitive_word);
+        mRowRandomDelayMin = view.findViewById(R.id.row_random_delay_min);
+        mRowRandomDelayMax = view.findViewById(R.id.row_random_delay_max);
+        mRowExcelRowLimit = view.findViewById(R.id.row_excel_row_limit);
+        mTvRandomDelayMin = view.findViewById(R.id.tv_random_delay_min);
+        mTvRandomDelayMax = view.findViewById(R.id.tv_random_delay_max);
+        mTvExcelRowLimit = view.findViewById(R.id.tv_excel_row_limit);
 
         mSliderDelay = view.findViewById(R.id.slider_delay);
         mSliderDelay.setValueFrom(Settings.SEND_DELAY_MIN);
@@ -125,6 +133,8 @@ public class SettingFrag extends Fragment {
         mSwitchRandomizeDelay.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (!isUpdatingUI) {
                 SettingManager.setRandomizeDelay(isChecked);
+                mRowRandomDelayMin.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+                mRowRandomDelayMax.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             }
         });
 
@@ -134,6 +144,15 @@ public class SettingFrag extends Fragment {
                 SettingManager.setDelay((int)value);
                 float seconds = value / 1000f;
                 mTvDelayValue.setText(String.format(Locale.getDefault(),"%.1fs", seconds));
+                int updatedDelay = (int) value;
+                if (SettingManager.getRandomDelayMin() < updatedDelay) {
+                    SettingManager.setRandomDelayMin(updatedDelay);
+                }
+                if (SettingManager.getRandomDelayMax() < SettingManager.getRandomDelayMin()) {
+                    SettingManager.setRandomDelayMax(SettingManager.getRandomDelayMin());
+                }
+                mTvRandomDelayMin.setText(String.format(Locale.getDefault(), "%.1fs", SettingManager.getRandomDelayMin() / 1000f));
+                mTvRandomDelayMax.setText(String.format(Locale.getDefault(), "%.1fs", SettingManager.getRandomDelayMax() / 1000f));
             }
         });
 
@@ -141,6 +160,52 @@ public class SettingFrag extends Fragment {
             float seconds = value / 1000f; // 转换回秒数
             return String.format(Locale.getDefault(), "%.1fs", seconds);
         });
+
+        mRowRandomDelayMin.setOnClickListener(v -> showIntegerInputDialog(
+                getString(R.string.random_delay_min),
+                getString(R.string.hint_delay_seconds),
+                SettingManager.getRandomDelayMin() / 1000,
+                value -> {
+                    int minMs = value * 1000;
+                    int baseDelay = SettingManager.getDelay();
+                    if (minMs >= baseDelay && minMs <= Settings.SEND_DELAY_MAX) {
+                        SettingManager.setRandomDelayMin(minMs);
+                        showInfo();
+                    } else {
+                        ToastUtil.show(context, getString(R.string.error_random_min_must_not_be_below_delay));
+                    }
+                }
+        ));
+
+        mRowRandomDelayMax.setOnClickListener(v -> showIntegerInputDialog(
+                getString(R.string.random_delay_max),
+                getString(R.string.hint_delay_seconds),
+                SettingManager.getRandomDelayMax() / 1000,
+                value -> {
+                    int maxMs = value * 1000;
+                    int minMs = SettingManager.getRandomDelayMin();
+                    if (maxMs < minMs || maxMs > Settings.SEND_DELAY_MAX) {
+                        ToastUtil.show(context, getString(R.string.error_random_max_range));
+                        return;
+                    }
+                    SettingManager.setRandomDelayMax(maxMs);
+                    showInfo();
+                }
+        ));
+
+        mRowExcelRowLimit.setOnClickListener(v -> showIntegerInputDialog(
+                getString(R.string.excel_row_limit),
+                getString(R.string.hint_excel_row_limit),
+                SettingManager.getExcelSendRowCountLimit(),
+                value -> {
+                    if (value < Settings.EXCEL_SEND_ROW_COUNT_MIN || value > Settings.EXCEL_ROW_COUNT_MAX) {
+                        ToastUtil.show(context, getString(R.string.error_excel_row_limit_range, Settings.EXCEL_SEND_ROW_COUNT_MIN, Settings.EXCEL_ROW_COUNT_MAX));
+                        return;
+                    }
+                    SettingManager.setExcelSendRowCountLimit(value);
+                    showInfo();
+                }
+        ));
 
         // Sensitive Word Filter
         mSwitchSensitiveWord.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -276,7 +341,7 @@ public class SettingFrag extends Fragment {
 
         // Check Update
         mRowCheckUpdate.setOnClickListener(v -> {
-            String releaseUrl = "https://github.com/yztz/MsgGo/releases/latest";
+            String releaseUrl = "https://github.com/Nyakorare/MsgGo/releases";
             new MaterialAlertDialogBuilder(context)
                     .setTitle(getString(R.string.check_update))
                     .setMessage(getString(R.string.going_to_url, releaseUrl))
@@ -359,6 +424,11 @@ public class SettingFrag extends Fragment {
         mSwitchAutoEditor.setChecked(SettingManager.autoEnterEditor());
         mSwitchRandomizeDelay.setChecked(SettingManager.isRandomizeDelay());
         mSwitchSensitiveWord.setChecked(SettingManager.isSensitiveWordFilterEnabled());
+        mRowRandomDelayMin.setVisibility(SettingManager.isRandomizeDelay() ? View.VISIBLE : View.GONE);
+        mRowRandomDelayMax.setVisibility(SettingManager.isRandomizeDelay() ? View.VISIBLE : View.GONE);
+        mTvRandomDelayMin.setText(String.format(Locale.getDefault(), "%.1fs", SettingManager.getRandomDelayMin() / 1000f));
+        mTvRandomDelayMax.setText(String.format(Locale.getDefault(), "%.1fs", SettingManager.getRandomDelayMax() / 1000f));
+        mTvExcelRowLimit.setText(getString(R.string.excel_row_limit_value, SettingManager.getExcelSendRowCountLimit()));
 
         // Display dark mode summary
         int darkMode = SettingManager.getDarkMode();
@@ -389,6 +459,39 @@ public class SettingFrag extends Fragment {
         mTvLanguage.setText(langText);
         
         isUpdatingUI = false;
+    }
+
+    private interface IntegerInputConsumer {
+        void onValue(int value);
+    }
+
+    private void showIntegerInputDialog(String title, String hint, int value, IntegerInputConsumer consumer) {
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_edit_text, null);
+        TextInputLayout container = dialogView.findViewById(R.id.edit_text_container);
+        container.setHint(hint);
+
+        EditText editText = dialogView.findViewById(R.id.edit_text);
+        editText.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
+        editText.setText(String.valueOf(value));
+        editText.setSelection(editText.getText().length());
+
+        new MaterialAlertDialogBuilder(context)
+                .setTitle(title)
+                .setView(dialogView)
+                .setPositiveButton(getString(R.string.ok), (dialog, which) -> {
+                    String input = editText.getText().toString().trim();
+                    if (TextUtils.isEmpty(input)) {
+                        ToastUtil.show(context, getString(R.string.error_invalid_number));
+                        return;
+                    }
+                    try {
+                        consumer.onValue(Integer.parseInt(input));
+                    } catch (NumberFormatException e) {
+                        ToastUtil.show(context, getString(R.string.error_invalid_number));
+                    }
+                })
+                .setNegativeButton(getString(R.string.cancel), null)
+                .show();
     }
 
 }

@@ -64,6 +64,8 @@ public class SendingActivity extends AppCompatActivity implements MessageService
     private int subId;
     private int delay;
     private boolean randomize;
+    private int randomDelayMin;
+    private int randomDelayMax;
 
     // Service
     private MessageService service = null;
@@ -133,6 +135,8 @@ public class SendingActivity extends AppCompatActivity implements MessageService
         subId = DataModel.getSubId();
         delay = SettingManager.getDelay();
         randomize = SettingManager.isRandomizeDelay();
+        randomDelayMin = SettingManager.getRandomDelayMin();
+        randomDelayMax = SettingManager.getRandomDelayMax();
 
         initViews();
         setupList();
@@ -201,8 +205,11 @@ public class SendingActivity extends AppCompatActivity implements MessageService
         updateMessageState(currentIndex, MessageState.WAITING);
 
         int targetDelay = delay;
-        if (randomize && delay > 1000) {
-            targetDelay = (int) (1000 + Math.random() * (delay - 1000));
+//        if (randomize && delay > 1000) {
+//            targetDelay = (int) (1000 + Math.random() * (delay - 1000));
+//        }
+        if (randomize && randomDelayMax >= randomDelayMin) {
+            targetDelay = randomDelayMin + (int) (Math.random() * (randomDelayMax - randomDelayMin + 1));
         }
 
         Log.d(TAG, "Scheduling message " + currentIndex + " with delay " + targetDelay + "ms");

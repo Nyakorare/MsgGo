@@ -397,7 +397,7 @@ public class MainActivity extends AppCompatActivity implements HomeFrag.DataLoad
                 } else if (e.res_id == R.string.file_too_large) {
                     errorMsg = getString(e.res_id, FileUtil.getFormatSize(Settings.EXCEL_FILE_SIZE_MAX));
                 } else if (e.res_id == R.string.file_too_much_row) {
-                    errorMsg = getString(e.res_id, Settings.EXCEL_ROW_COUNT_MAX);
+                    errorMsg = getString(e.res_id, SettingManager.getExcelSendRowCountLimit());
                 } else {
                     errorMsg = getString(e.res_id);
                 }

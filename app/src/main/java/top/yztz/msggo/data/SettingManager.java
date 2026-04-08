@@ -34,6 +34,9 @@ public class SettingManager {
 
     private static final String SEND_DELAY_KEY = "send_delay_v1";
     private static final String SEND_DELAY_RANDOMIZATION_KEY = "send_delay_randomization_v1";
+    private static final String RANDOM_DELAY_MIN_KEY = "random_delay_min_v1";
+    private static final String RANDOM_DELAY_MAX_KEY = "random_delay_max_v1";
+    private static final String EXCEL_SEND_ROW_COUNT_KEY = "excel_send_row_count_v1";
     private static final String EDIT_AFTER_IMPORT_KEY = "edit_after_import_v1";
     private static final String SMS_RATE_KEY = "sms_rate_v1";
     private static final String LANGUAGE_KEY = "language_v1";
@@ -54,6 +57,9 @@ public class SettingManager {
     static {
         DefaultPropMap.put(SEND_DELAY_KEY, Settings.SEND_DELAY_DEFAULT);
         DefaultPropMap.put(SEND_DELAY_RANDOMIZATION_KEY, Settings.SEND_DELAY_RANDOMIZATION_DEFAULT);
+        DefaultPropMap.put(RANDOM_DELAY_MIN_KEY, Settings.RANDOM_DELAY_MIN_DEFAULT);
+        DefaultPropMap.put(RANDOM_DELAY_MAX_KEY, Settings.RANDOM_DELAY_MAX_DEFAULT);
+        DefaultPropMap.put(EXCEL_SEND_ROW_COUNT_KEY, Settings.EXCEL_SEND_ROW_COUNT_DEFAULT);
         DefaultPropMap.put(EDIT_AFTER_IMPORT_KEY, Settings.EDIT_AFTER_IMPORT_DEFAULT);
         DefaultPropMap.put(SMS_RATE_KEY, Settings.SMS_RATE_DEFAULT);
         DefaultPropMap.put(LANGUAGE_KEY, Settings.LANGUAGE_DEFAULT);
@@ -91,11 +97,17 @@ public class SettingManager {
     }
 
     public static int getDelay() {
-        return mSp.getInt(SEND_DELAY_KEY, Settings.SEND_DELAY_DEFAULT);
+        int delay = mSp.getInt(SEND_DELAY_KEY, Settings.SEND_DELAY_DEFAULT);
+        if (delay < Settings.SEND_DELAY_MIN) return Settings.SEND_DELAY_MIN;
+        if (delay > Settings.SEND_DELAY_MAX) return Settings.SEND_DELAY_MAX;
+        return delay;
     }
 
     public static void setDelay(int num) {
-        mEditor.putInt(SEND_DELAY_KEY, num);
+        int value = num;
+        if (value < Settings.SEND_DELAY_MIN) value = Settings.SEND_DELAY_MIN;
+        if (value > Settings.SEND_DELAY_MAX) value = Settings.SEND_DELAY_MAX;
+        mEditor.putInt(SEND_DELAY_KEY, value);
         mEditor.apply();
     }
 
@@ -137,6 +149,55 @@ public class SettingManager {
 
     public static void setRandomizeDelay(boolean flag) {
         mEditor.putBoolean(SEND_DELAY_RANDOMIZATION_KEY, flag).apply();
+    }
+
+    public static int getRandomDelayMin() {
+        int min = mSp.getInt(RANDOM_DELAY_MIN_KEY, Settings.RANDOM_DELAY_MIN_DEFAULT);
+        int baseDelay = getDelay();
+        if (min < baseDelay) min = baseDelay;
+        if (min > Settings.SEND_DELAY_MAX) min = Settings.SEND_DELAY_MAX;
+        return min;
+    }
+
+    public static void setRandomDelayMin(int min) {
+        int baseDelay = getDelay();
+        int value = min;
+        if (value < baseDelay) value = baseDelay;
+        if (value > Settings.SEND_DELAY_MAX) value = Settings.SEND_DELAY_MAX;
+        mEditor.putInt(RANDOM_DELAY_MIN_KEY, value).apply();
+        if (getRandomDelayMax() < value) {
+            setRandomDelayMax(value);
+        }
+    }
+
+    public static int getRandomDelayMax() {
+        int max = mSp.getInt(RANDOM_DELAY_MAX_KEY, Settings.RANDOM_DELAY_MAX_DEFAULT);
+        if (max < getRandomDelayMin()) max = getRandomDelayMin();
+        if (max > Settings.SEND_DELAY_MAX) max = Settings.SEND_DELAY_MAX;
+        if (max < getRandomDelayMin()) max = getRandomDelayMin();
+        return max;
+    }
+
+    public static void setRandomDelayMax(int max) {
+        int min = getRandomDelayMin();
+        int value = max;
+        if (value < min) value = min;
+        if (value > Settings.SEND_DELAY_MAX) value = Settings.SEND_DELAY_MAX;
+        mEditor.putInt(RANDOM_DELAY_MAX_KEY, value).apply();
+    }
+
+    public static int getExcelSendRowCountLimit() {
+        int count = mSp.getInt(EXCEL_SEND_ROW_COUNT_KEY, Settings.EXCEL_SEND_ROW_COUNT_DEFAULT);
+        if (count < Settings.EXCEL_SEND_ROW_COUNT_MIN) count = Settings.EXCEL_SEND_ROW_COUNT_MIN;
+        if (count > Settings.EXCEL_ROW_COUNT_MAX) count = Settings.EXCEL_ROW_COUNT_MAX;
+        return count;
+    }
+
+    public static void setExcelSendRowCountLimit(int count) {
+        int value = count;
+        if (value < Settings.EXCEL_SEND_ROW_COUNT_MIN) value = Settings.EXCEL_SEND_ROW_COUNT_MIN;
+        if (value > Settings.EXCEL_ROW_COUNT_MAX) value = Settings.EXCEL_ROW_COUNT_MAX;
+        mEditor.putInt(EXCEL_SEND_ROW_COUNT_KEY, value).apply();
     }
 
     public static int getDarkMode() {
