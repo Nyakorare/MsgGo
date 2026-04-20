@@ -1,4 +1,5 @@
 **Last Updated: January 2, 2026**
+**Last Modified (Nyakorare): April 20, 2026**
 
 MsgGo (hereinafter referred to as "this application") understands the importance of privacy to you and is committed to protecting your personal data. This Privacy Policy is intended to explain how this application processes data, the reasons we request permissions, and our efforts to protect your privacy.
 

@@ -1,2 +1,2 @@
 see GitHub：
-https://github.com/yztz/MsgGo/releases
+https://github.com/Nyakorare/MsgGo/releases

@@ -64,6 +64,7 @@ public class ExcelReader {
 
         try (FileInputStream is = new FileInputStream(path)) {
             //创建工作簿
+            // Create Workbook
             String postfix = path.substring(path.lastIndexOf("."));
             if (postfix.equals(".xls")) {
                 // 针对 2003 Excel 文件
@@ -73,16 +74,20 @@ public class ExcelReader {
                 wb = new XSSFWorkbook(is);
             }
             //获取第一张工作表（约定）
+            // Get the first sheet (convention)
             sheet = wb.getSheetAt(0);
             //获取行的列数（可自定）
+            // Get the number of columns in the row (customizable)
             Row firstRow = sheet.getRow(0);
             if (firstRow == null) throw new DataLoadFailed(R.string.error_no_header);
             colNum = firstRow.getPhysicalNumberOfCells();
 
             if (firstRow.getLastCellNum() - firstRow.getFirstCellNum() != colNum) throw new DataLoadFailed(R.string.error_non_continuous_columns);
             //获取标题
+            // Get Title
             readExcelTitle();
             //得到总行数（不包含标题）
+            // Get the total number of rows (excluding the header)
             int lastRowNum = sheet.getLastRowNum();
 //            if (lastRowNum > Settings.EXCEL_ROW_COUNT_MAX) throw new DataLoadFailed(R.string.file_too_much_row);
             int configuredRowLimit = SettingManager.getExcelSendRowCountLimit();
@@ -111,10 +116,12 @@ public class ExcelReader {
         ArrayList<HashMap<String, String>> list = new ArrayList<>();
         Row currentRow;
         // 正文内容应该从第二行开始,第一行为表头的标题
+        // The main content should start from the second row, the first row is the header title
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
             currentRow = sheet.getRow(i);
             
             // 跳过空行
+            // Skip empty rows
             if (currentRow == null || isRowEmpty(currentRow)) {
                 continue;
             }
@@ -132,6 +139,7 @@ public class ExcelReader {
     /**
      * 检查行是否为空（所有单元格都为空）
      */
+    // Check if the row is empty (all cells are empty)
     private boolean isRowEmpty(Row row) {
         if (row == null) return true;
         for (int colIdx : titleColumns) {
@@ -152,8 +160,9 @@ public class ExcelReader {
      * 将cell数据转化为字符串格式
      *
      * @param cell 单元格
-     * @return 数据的字符串形式
+     * @return 数据的字符串形式 // String representation of the data
      */
+    // Convert cell data to string format
     private static String getCellFormatValue(Cell cell) {
         if (cell == null) {
             return "";

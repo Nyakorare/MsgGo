@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements HomeFrag.DataLoad
     /**
      * 初始化fragment
      */
+    // Initialize fragment
     public void initFragment() {
         viewPager = findViewById(R.id.view_pager);
         viewPager.setUserInputEnabled(true); // Enable swipe
@@ -362,6 +363,7 @@ public class MainActivity extends AppCompatActivity implements HomeFrag.DataLoad
     /**
      * 打开文件选择器
      */
+    // Open file chooser
     public void openFileChooser() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);

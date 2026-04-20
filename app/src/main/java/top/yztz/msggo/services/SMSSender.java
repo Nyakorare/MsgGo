@@ -73,6 +73,12 @@ public class SMSSender {
      * @param subId       SIM 卡订阅 ID
      * @param code        独一无二的请求码（用以广播接收）
      */
+    // Context
+    // Send content
+    // Phone number
+    // SIM card subscription ID
+    // Unique request code (for broadcast reception)
+    // Send SMS
     public static void sendMessage(Context context, String content, String phoneNumber, int subId, int code) {
         try {
             final SmsManager manager;

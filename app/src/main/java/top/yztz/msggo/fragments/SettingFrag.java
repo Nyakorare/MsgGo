@@ -158,6 +158,7 @@ public class SettingFrag extends Fragment {
 
         mSliderDelay.setLabelFormatter(value -> {
             float seconds = value / 1000f; // 转换回秒数
+            // Format back to seconds for displaying on the slider thumb
             return String.format(Locale.getDefault(), "%.1fs", seconds);
         });
 
@@ -212,6 +213,7 @@ public class SettingFrag extends Fragment {
             if (isUpdatingUI) return;
             if (!isChecked) {
                 // 如果用户试图关闭，弹窗警告
+                // If the user tries to turn it off, pop up a warning
                 new MaterialAlertDialogBuilder(context)
                         .setTitle(getString(R.string.sensitive_word_filter_dev_title))
                         .setMessage(getString(R.string.sensitive_word_filter_dev_msg))
@@ -221,6 +223,7 @@ public class SettingFrag extends Fragment {
                         })
                         .setNegativeButton(getString(R.string.cancel), (dialog, which) -> {
                             // 还原开关状态
+                            // Restore witch state
                             isUpdatingUI = true;
                             mSwitchSensitiveWord.setChecked(true);
                             isUpdatingUI = false;
@@ -441,7 +444,7 @@ public class SettingFrag extends Fragment {
         }
 
         // Display number column
-        // mTvNumberColumn.setText(TextUtils.isEmpty(numberColumn) ? "未选择" : numberColumn);
+        // mTvNumberColumn.setText(TextUtils.isEmpty(numberColumn) ? "未选择" : numberColumn); // Not selected
         
         // SMS Rate
         mTvSmsRateValue.setText(getString(R.string.currency_sms_rate, SettingManager.getSmsRate()));

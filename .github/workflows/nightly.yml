@@ -3,7 +3,8 @@ name: Nightly Build
 on:
 #  schedule:
 #    - cron: '0 18 * * *' # 每天凌晨 2 点 (北京时间)
-  workflow_dispatch: # 允许手动触发
+#  schedule: cron:'0.18 * * *' # Everyday at 2:00 AM (Beijing Time)
+  workflow_dispatch: # 允许手动触发 # Allow manual triggering
 
 permissions:
   contents: write
@@ -16,7 +17,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: experiment/feature-idea
+          ref: master
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4

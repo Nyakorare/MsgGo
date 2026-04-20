@@ -152,13 +152,14 @@ public class FileUtil {
         String fileName = "messages_" + System.currentTimeMillis() + ".ser";
         try (FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-            oos.writeObject(messages);  // 序列化Message数组
+            oos.writeObject(messages);  // 序列化Message数组 // Serialize the Message array
             Log.i(TAG, "Message array has been serialized to file: " + fileName);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
         return fileName;  // 返回生成的文件名
+        // Return the generated file name
     }
 
     public static Message[] readMessageArrayFromFile(Context context, String fileName) {
@@ -166,9 +167,11 @@ public class FileUtil {
         try (FileInputStream fis = context.openFileInput(fileName);
              ObjectInputStream ois = new ObjectInputStream(fis)) {
             messages = (Message[]) ois.readObject();  // 反序列化Message数组
+            // Log the message
             Log.d(TAG, "Message array has been deserialized from file: " + fileName);
 
             // 成功读取后删除文件
+            // Delete the file after successful read
 //            boolean isDeleted = context.deleteFile(fileName);
 //            if (isDeleted) {
 //                Log.d(TAG, "File " + fileName + " has been deleted.");
@@ -199,6 +202,7 @@ public class FileUtil {
             }
 
             // 将字节数组转换为十六进制字符串
+            // Convert byte array to hexadecimal string
             byte[] bytes = digest.digest();
             StringBuilder sb = new StringBuilder();
             for (byte b : bytes) {
@@ -209,6 +213,7 @@ public class FileUtil {
         } catch (Exception e) {
             e.printStackTrace();
             // 如果计算失败，回退到之前的时间戳+大小方案，保证逻辑不中断
+            // Fallback to previous timestamp + size scheme if calculation fails, to ensure logic continuity
             return file.lastModified() + "_" + file.length();
         } finally {
             if (fis != null) {

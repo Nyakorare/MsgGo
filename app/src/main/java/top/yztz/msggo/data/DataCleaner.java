@@ -34,6 +34,7 @@ public class DataCleaner {
      *
      * @param context
      */
+    // Clear the internal cache of this application (/data/data/com.xxx.xxx/cache)
     public static void cleanInternalCache(Context context) {
         deleteFilesByDirectory(context.getCacheDir(), null);
     }
@@ -47,6 +48,7 @@ public class DataCleaner {
      *
      * @param context
      */
+    // Clear all databases of this application (/data/data/com.xxx.xxx/databases)
     public static void cleanDatabases(Context context) {
         deleteFilesByDirectory(new File("/data/data/"
                 + context.getPackageName() + "/databases"), null);
@@ -57,6 +59,7 @@ public class DataCleaner {
      *
      * @param context
      */
+    // Clear the SharedPreference of this application (/data/data/com.xxx.xxx/shared_prefs)
     public static void cleanSharedPreference(Context context) {
         deleteFilesByDirectory(new File("/data/data/"
                 + context.getPackageName() + "/shared_prefs"), null);
@@ -68,6 +71,7 @@ public class DataCleaner {
      * @param context
      * @param dbName
      */
+    // Clear the database of this application by name
     public static void cleanDatabaseByName(Context context, String dbName) {
         context.deleteDatabase(dbName);
     }
@@ -77,6 +81,7 @@ public class DataCleaner {
      *
      * @param context
      */
+    // Clear the contents under /data/data/com.xxx.xxx/files
     public static void cleanFiles(Context context) {
         deleteFilesByDirectory(context.getFilesDir(), null);
     }
@@ -86,6 +91,7 @@ public class DataCleaner {
      *
      * @param context
      */
+    // Clear the contents under external cache (/mnt/sdcard/android/data/com.xxx.xxx/cache)
     public static void cleanExternalCache(Context context) {
         if (Environment.getExternalStorageState().equals(
                 Environment.MEDIA_MOUNTED)) {
@@ -97,6 +103,7 @@ public class DataCleaner {
      *
      * @param filePath
      * */
+    // Clear files under a custom path, use with caution, please do not delete by mistake. And it only supports file deletion under the directory
     public static void cleanCustomCache(String filePath) {
         deleteFilesByDirectory(new File(filePath), null);
     }
@@ -107,6 +114,7 @@ public class DataCleaner {
      * @param context
      * @param filepath
      */
+    // Clear all data of this application
     public static void cleanApplicationData(Context context, String... filepath) {
         cleanInternalCache(context);
         cleanExternalCache(context);
@@ -126,6 +134,7 @@ public class DataCleaner {
      *
      * @param directory
      */
+    // Delete method, it will only delete files under a folder, if the passed directory is a file, it will not be processed
     private static void deleteFilesByDirectory(File directory, String excludePath) {
         if (directory != null && directory.exists() && directory.isDirectory()) {
             for (File item : directory.listFiles()) {
@@ -144,6 +153,7 @@ public class DataCleaner {
     }
 
     // 获取文件
+    // Get file size
     //Context.getExternalFilesDir() --> SDCard/Android/data/你的应用的包名/files/ 目录，一般放一些长时间保存的数据
     //Context.getExternalCacheDir() --> SDCard/Android/data/你的应用包名/cache/目录，一般存放临时缓存数据
     public static long getFolderSize(File file) throws Exception {
@@ -152,6 +162,7 @@ public class DataCleaner {
             File[] fileList = file.listFiles();
             for (int i = 0; i < fileList.length; i++) {
                 // 如果下面还有文件
+                // If there are more files below
                 if (fileList[i].isDirectory()) {
                     size = size + getFolderSize(fileList[i]);
                 } else {
@@ -168,11 +179,13 @@ public class DataCleaner {
      * 删除指定目录下文件及目录
      *
      */
+    // Delete files and directories under the specified directory
     public static void deleteFolderFile(String filePath, boolean deleteThisPath) {
         if (!TextUtils.isEmpty(filePath)) {
             try {
                 File file = new File(filePath);
                 if (file.isDirectory()) {// 如果下面还有文件
+                // If there are more files below
                     File[] files = file.listFiles();
                     for (int i = 0; i < files.length; i++) {
                         deleteFolderFile(files[i].getAbsolutePath(), true);
@@ -180,9 +193,12 @@ public class DataCleaner {
                 }
                 if (deleteThisPath) {
                     if (!file.isDirectory()) {// 如果是文件，删除
+                    // If it's a file, delete
                         file.delete();
                     } else {// 目录
+                    // Directory
                         if (file.listFiles().length == 0) {// 目录下没有文件或者目录，删除
+                        // No files or directories under the directory, delete
                             file.delete();
                         }
                     }

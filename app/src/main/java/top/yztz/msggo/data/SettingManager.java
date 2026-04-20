@@ -46,10 +46,13 @@ public class SettingManager {
     private static final String SENSITIVE_WORD_FILTER_KEY = "sensitive_word_filter_v1";
 
     /** 深色模式值常量：跟随系统 */
+    // Dark mode value constant: Follow system
     public static final int DARK_MODE_SYSTEM = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
     /** 深色模式值常量：始终浅色 */
+    // Dark mode value constant: Always light
     public static final int DARK_MODE_LIGHT = AppCompatDelegate.MODE_NIGHT_NO;
     /** 深色模式值常量：始终深色 */
+    // Dark mode value constant: Always darl
     public static final int DARK_MODE_DARK = AppCompatDelegate.MODE_NIGHT_YES;
 
 
@@ -75,6 +78,7 @@ public class SettingManager {
         Log.i(TAG, "Initializing SettingManager");
         for (String key : DefaultPropMap.keySet()) {
             //不包含key时使用默认值初始化
+            // Initialize with default value if key is not contained
             if (!mSp.contains(key)) {
                 Object obj = DefaultPropMap.get(key);
                 Log.d(TAG, "Setting default value for: " + key + " -> " + obj);
