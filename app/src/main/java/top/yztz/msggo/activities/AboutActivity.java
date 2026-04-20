@@ -73,10 +73,10 @@ public class AboutActivity extends AppCompatActivity {
         findViewById(R.id.row_source_code).setOnClickListener(v ->
                 new MaterialAlertDialogBuilder(this)
                 .setTitle(getString(R.string.visit_source_code))
-                .setMessage(getString(R.string.going_to_url, "https://github.com/yztz/MsgGo"))
+                .setMessage(getString(R.string.going_to_url, "https://github.com/Nyakorare/MsgGo"))
                 .setPositiveButton(getString(R.string.visit), (dialog, which) -> {
                     try {
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/yztz/MsgGo"));
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Nyakorare/MsgGo"));
                         startActivity(intent);
                     } catch (Exception e) {
                         ToastUtil.show(this, getString(R.string.cannot_open_link, e.getMessage()));
@@ -108,4 +108,3 @@ public class AboutActivity extends AppCompatActivity {
     }
 
 }
-

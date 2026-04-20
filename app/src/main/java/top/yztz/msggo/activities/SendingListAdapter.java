@@ -74,6 +74,7 @@ public class SendingListAdapter extends RecyclerView.Adapter<SendingListAdapter.
         } else {
             SendingActivity.MessageState newState = (SendingActivity.MessageState) payloads.get(0);
             holder.transitionToState(newState, true); // true = 使用动画
+            // true = use animation
         }
     }
 
@@ -84,6 +85,7 @@ public class SendingListAdapter extends RecyclerView.Adapter<SendingListAdapter.
         holder.tvPhone.setText(message.getPhone());
         holder.tvContent.setText(message.getContent().replace('\n', ' '));
         holder.transitionToState(message.getState(), false); // false = 不使用动画
+        // false = no animation
     }
 
     @Override
@@ -100,6 +102,7 @@ public class SendingListAdapter extends RecyclerView.Adapter<SendingListAdapter.
         private AnimatorSet currentAnimator = null;
 
         // 缓存颜色值，避免重复获取
+        // Cache color values to avoid repeated retrieval
         private final int colorDefault;
         private final int colorOnDefault;
         private final int colorSuccess;
@@ -118,6 +121,7 @@ public class SendingListAdapter extends RecyclerView.Adapter<SendingListAdapter.
             progressIndicator = itemView.findViewById(R.id.progress_indicator);
 
             // 初始化时获取一次颜色值
+            // Initialize and get color values once
             colorDefault = MaterialColors.getColor(itemView, R.attr.colorSurface);
             colorError = MaterialColors.getColor(itemView, R.attr.colorErrorContainer);
             colorSuccess = MaterialColors.getColor(itemView, R.attr.colorPrimaryContainer);
@@ -130,6 +134,7 @@ public class SendingListAdapter extends RecyclerView.Adapter<SendingListAdapter.
             StateStyle style = new StateStyle();
 
             // 默认样式
+            // Default style
             style.bgColor = colorDefault;
             style.textColor = colorOnDefault;
             style.iconColor = colorOnDefault;
@@ -177,20 +182,26 @@ public class SendingListAdapter extends RecyclerView.Adapter<SendingListAdapter.
          * @param newState 新状态
          * @param animate 是否使用动画
          */
+        // Unified state transition method
+        // new State
+        // whether to use animation
         public void transitionToState(SendingActivity.MessageState newState, boolean animate) {
             cancelAnimation();
 
             StateStyle style = getStyleForState(newState);
 
             // 更新文本和进度条
+            // Update text and progress bar
             tvStatus.setText(style.textRes);
             progressIndicator.setVisibility(style.showProgress ? View.VISIBLE : View.GONE);
 
             if (!animate) {
                 // 直接设置，无动画
+                // Set directly, no animation
                 applyStyleImmediately(style);
             } else {
                 // 使用动画过渡
+                // Use animation transition
                 animateToStyle(style);
             }
         }
@@ -208,6 +219,7 @@ public class SendingListAdapter extends RecyclerView.Adapter<SendingListAdapter.
             List<Animator> animators = new ArrayList<>();
 
             // 背景色动画
+            // Background color animation
             ObjectAnimator bgAnim = ObjectAnimator.ofObject(
                     cardView,
                     "cardBackgroundColor",
@@ -218,6 +230,7 @@ public class SendingListAdapter extends RecyclerView.Adapter<SendingListAdapter.
             animators.add(bgAnim);
 
             // 文字颜色动画
+            // Text color animation
             ObjectAnimator textAnim = ObjectAnimator.ofObject(
                     tvStatus,
                     "textColor",
@@ -228,6 +241,7 @@ public class SendingListAdapter extends RecyclerView.Adapter<SendingListAdapter.
             animators.add(textAnim);
 
             // 透明度动画
+            // Alpha animation
             ObjectAnimator alphaAnim = ObjectAnimator.ofFloat(
                     cardView,
                     "alpha",
@@ -237,6 +251,7 @@ public class SendingListAdapter extends RecyclerView.Adapter<SendingListAdapter.
             animators.add(alphaAnim);
 
             // 图标切换动画（淡出 -> 切换 -> 淡入）
+            // Icon switch animation (fade out -> switch -> fade in)
             ObjectAnimator iconFadeOut = ObjectAnimator.ofFloat(ivStatusIcon, "alpha", 1f, 0f);
             iconFadeOut.setDuration(150);
 
@@ -249,6 +264,7 @@ public class SendingListAdapter extends RecyclerView.Adapter<SendingListAdapter.
                 @Override
                 public void onAnimationStart(android.animation.Animator animation) {
                     // 在淡入开始时切换图标
+                    // Switch icon at the start of fade-in
                     ivStatusIcon.setImageResource(style.iconRes);
                     ivStatusIcon.setColorFilter(style.iconColor);
                 }
@@ -270,6 +286,7 @@ public class SendingListAdapter extends RecyclerView.Adapter<SendingListAdapter.
             animators.add(iconFadeIn);
 
             // 组合所有动画
+            // Combine all animations
             currentAnimator = new AnimatorSet();
             currentAnimator.playTogether(animators);
             currentAnimator.setDuration(300);

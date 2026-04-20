@@ -167,7 +167,7 @@ public class ChooserActivity extends AppCompatActivity {
 
 
         topAppBar.setNavigationOnClickListener(v -> finish());
-//        setupNumberColumnSelection();
+        // setupNumberColumnSelection();
         setupInfoCard();
         setupTableHeader();
         updateSelectionSummary();
@@ -253,6 +253,7 @@ public class ChooserActivity extends AppCompatActivity {
 //        }
 //        new MaterialAlertDialogBuilder(this)
 //                .setTitle("哪列存储着号码？")
+                // Which column contains the phone numbers?
 //                .setItems(DataLoader.getTitles(), (dialog, which) -> {
 //                    DataLoader.setNumberColumn(DataLoader.getTitles()[which]);
 //                    ToastUtil.show(this, "号码列: " + DataLoader.getTitles()[which]);

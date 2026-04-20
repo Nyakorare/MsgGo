@@ -36,6 +36,7 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
     private final Map<Integer, SmsStatus> smsStatusMap = new HashMap<>();
 
     // 短信状态追踪类
+    // Class for tracking SMS status
     private static class SmsStatus {
         int totalParts;
         int successParts;
@@ -69,6 +70,7 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
         boolean success = (resultCode == Activity.RESULT_OK);
 
         // 获取或创建状态追踪对象
+        // Get or create status tracking object
         SmsStatus status = smsStatusMap.get(code);
         if (status == null) {
             status = new SmsStatus();
@@ -78,6 +80,7 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
         }
 
         // 更新统计
+        // Update statistics
         if (success) {
             status.successParts++;
         } else {
@@ -85,6 +88,7 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
         }
 
         // 记录日志
+        // Log the message
         String log = buildLogMessage(code, phone, part, totalParts, success, resultCode);
         if (success) {
             Log.i(TAG, log);
@@ -93,10 +97,12 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
         }
 
         // 检查是否所有分片都已确认
+        // Check if all parts have been confirmed
         if (status.isComplete()) {
             boolean allSuccess = status.isAllSuccess();
 
             // 记录最终状态
+            // Log the final status
             String finalLog = String.format(
                     "SMS sending completed for code=%d, phone=%s, success=%d/%d",
                     code, maskPhone(phone), status.successParts, status.totalParts
@@ -104,22 +110,26 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
             Log.i(TAG, finalLog);
 
             // 回调通知（只回调一次）
+            // Callback notofication (only once)
             if (callback != null) {
                 callback.onSent(code, allSuccess);
             }
 
             // 清理状态
+            // Clean up status
             smsStatusMap.remove(code);
         }
     }
 
     // 构建日志消息
+    // Build log message
     private String buildLogMessage(int code, String phone, int part,
                                    int totalParts, boolean success, int resultCode) {
         String maskedPhone = phone != null ? maskPhone(phone) : "Unknown";
 
         if (totalParts > 1) {
             // 多条短信
+            // Multiple SMS ports
             if (success) {
                 return String.format("SMS part %d/%d sent successfully (code=%d, phone=%s)",
                         part + 1, totalParts, code, maskedPhone);
@@ -130,6 +140,7 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
             }
         } else {
             // 单条短信
+            // Single SMS
             if (success) {
                 return String.format("SMS sent successfully (code=%d, phone=%s)",
                         code, maskedPhone);
@@ -141,6 +152,7 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
     }
 
     // 电话号码脱敏
+    // Phone number masking
     private String maskPhone(String phone) {
         if(BuildConfig.DEBUG) {
             return phone;
@@ -155,6 +167,7 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
     }
 
     // 获取详细的错误信息
+    // Get detailed error message
     private String getSmsErrorMessage(int resultCode) {
         return switch (resultCode) {
             case SmsManager.RESULT_ERROR_GENERIC_FAILURE -> "Generic failure";

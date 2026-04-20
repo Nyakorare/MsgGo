@@ -1,2 +1,2 @@
 版本说明请参考 GitHub：
-https://github.com/yztz/MsgGo/releases
+https://github.com/Nyakorare/MsgGo/releases

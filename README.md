@@ -2,114 +2,122 @@
 
 <img src="./app/src/main/ic_launcher_v2-playstore.png" width="30%">
 
-安卓平台上的一款轻量的短信群发App。
+A lightweight bulk SMS application for the Android platform.
 
 ![](https://img.shields.io/badge/Android-3DDC84?logo=android&logoColor=ffffff)
 ![](https://img.shields.io/github/v/release/yztz/MsgGo.svg)
 ![](https://img.shields.io/github/license/yztz/MsgGo)
 ![](https://img.shields.io/github/downloads/yztz/MsgGo/total?color=green)
 
-
-[中文](./README.md) | [English](./README_EN.md)
-
+[English](./README.md) | [中文](./README_CN.md)
 
 > [!IMPORTANT]
-> 本软件所提供的群发功能系基于手机系统原生的短信接口实现。
-> 1. 本软件不提供任何中转分发服务，发送行为直接关联您的SIM卡号码，属于您的个人通信范畴。
-> 2. 您的短信发送量、内容合规性及送达质量均受短信运营商的实时监控与限制。
-> 3. 本软件无法干预运营商的审查机制及计费标准。用户应对其发送内容的合法性及由此产生的法律后果负全部责任。
-> 4. 严禁利用本工具从事电信诈骗、垃圾信息传播等违法违规活动
-> 5. 本软件仅限于个人或企业内部合规通讯使用，严禁用于商业营销及各类广告投递。如需开展营销业务，请咨询具备相关资质的专业短信服务供应商
+> The bulk messaging functionality provided by this software is implemented based on the mobile device's native system SMS interface.
+>
+> 1. This software does not provide any third-party relay or distribution services. All transmission activities are directly associated with your SIM card number and are legally recognized as your personal communication.
+> 2. The volume of messages sent, content compliance, and delivery rates are subject to real-time monitoring and restrictions imposed by your mobile network operator.
+> 3. This software cannot intervene in the operator's filtering mechanisms or billing standards. Users shall bear full legal responsibility for the legality of the content sent and any resulting consequences.
+> 4. It is strictly forbidden to use this tool for telecommunications fraud, the dissemination of spam, or any other illegal or non-compliant activities.
+> 5. This software is strictly intended for personal or internal corporate communications. Use for commercial marketing or advertising distribution is strictly prohibited. For marketing-related services, please consult a qualified professional SMS service provider.
 
-## 更新
+## Updates
 
-元旦快乐，第五个年头！元旦特别版更新，请大家下载体验！
+Happy New Year! Entering our fifth year! The New Year Special Edition is now live—please download and enjoy!
 
 ---
 
-距该项目发布已经将近 4 年了，本次更新带来了全新的外观材质（Material 3），更加优秀的交互，欢迎大家下载体验！
+It has been nearly 4 years since this project was launched. This update brings a brand-new look and feel (**Material 3**) and significantly improved interactions. Everyone is welcome to download and try it out!
 
 ## Features
 
-* [新] 历史记录功能
-* [新] 短信资费计算
-* [新] 短信发送预览
-* [新] HyperOS支持
-* [新] 多语言支持
-* 支持多卡选择
-* **无联网权限**
+* [New] History logs
+* [New] SMS cost estimation
+* [New] SMS preview before sending
+* [New] HyperOS support
+* [New] Multi-language support
+* Dual-SIM selection support
+* **No internet permission required**
 * Material Design 3
-* 基于excel数据格式导入
-* 自动获取短信变量名
-* 提供短信编辑器，支持短信[**魔法变量**](#魔法变量)代换
-* 即时回馈信息发送状态
-* 无需固定格式，App内指定号码列
-* *第三方应用数据一键分享导入*
+* Import based on Excel data format
+* Automatic retrieval of SMS variable names
+* Built-in SMS editor with support for [**Magic Variables**](#magic-variables)
+* Real-time feedback on message sending status
+* No fixed template required; specify the phone number column within the app
+* *One-click data sharing/import from third-party apps*
 
-## 截图
+## Modified Feature Options (Nyakorare)
+
+* [New] Custom Send Delay Slider
+* [New] Custom Random Delay minimum and maximum Slider
+* [New] Configurable Excel row limit (max: 800)
+
+## Screenshots
+
 <div style="display: flex; flex-direction: row; justify-content: space-between;">
-<img src="./fastlane/metadata/android/zh-CN/images/phoneScreenshots/1.png" width="18%">
-<img src="./fastlane/metadata/android/zh-CN/images/phoneScreenshots/2.png" width="18%">
-<img src="./fastlane/metadata/android/zh-CN/images/phoneScreenshots/3.png" width="18%">
-<img src="./fastlane/metadata/android/zh-CN/images/phoneScreenshots/4.png" width="18%">
-<img src="./fastlane/metadata/android/zh-CN/images/phoneScreenshots/5.png" width="18%">
+<img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="18%">
+<img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="18%">
+<img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="18%">
+<img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="18%">
+<img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/5.png" width="18%">
 </div>
 
-## 下载
+## Download
 
 [<img src="https://raw.githubusercontent.com/rubenpgrady/get-it-on-github/refs/heads/main/get-it-on-github.png" alt="Get it on GitHub" height="80">](https://github.com/Nyakorare/MsgGo/releases/latest)
 
 
-## 基本使用
-1. 导入数据
-2. 选择收件人号码列
-3. 编辑短信内容
-4. 选择 SIM 卡
-5. 开始发送
+## Basic Usage
+
+1. Import data
+2. Select the recipient phone number column
+3. Edit SMS content
+4. Select SIM card
+5. Start sending
 
 > [!NOTE]  
-> 1. 兼容.xls/.xlsx格式
-> 2. 发送延迟不要过短，否则可能存在拦截问题。
-> 3. 已知运营商一般存在发送限制，例如移动为200条/小时，1000条/天，超出后可能会被限制收发。
+> 1. Compatible with .xls/.xlsx formats
+> 2. Do not set the sending delay too short, or you may encounter carrier blocking issues.
+> 3. Please be aware that carriers usually impose sending limits. For example, some carriers limit users to 200 messages/hour and 1,000 messages/day. Exceeding these limits may result in restricted sending/receiving capabilities.
 
-## Excel格式要求
-| 列名  | 列名 | 列名 | ... |
-|-----|----|----|-----|
-| 数据  | 数据 | 数据 | ... |
-| 数据  | 数据 | 数据 | ... |
-| ... |    |    |     |
+## Excel Format Requirements
+
+| Column Name | Column Name | Column Name | ... |
+|-------------|-------------|-------------|-----|
+| Data        | Data        | Data        | ... |
+| Data        | Data        | Data        | ... |
+| ...         |             |             |     |
 
 
-## 魔法变量
+## Magic Variables
 
-什么是魔法变量？
+What are Magic Variables?
 
-例如以下场景：
+Consider the following scenario:
 
-> 你要给多个人发送这样的短信：${xxx}同学，你好，balabala...
+> You want to send a message to multiple people: Dear ${xxx}, hello, balabala...
 
-这里的`${xxx}`就是我们的魔法变量，在导入的excel中，每一个魔法变量对应的就是每一列，例如：
+Here, `${xxx}` is our Magic Variable. In the imported Excel file, each magic variable corresponds to a column. For example:
 
-| 姓名 | 手机号码 |
-|----|------|
-| 张三 | 123  |
-| 李四 | 456  |
+| Name | Phone Number |
+|------|--------------|
+| John | 123          |
+| Mike | 456          |
 
-那么这里就有两个魔法变量`姓名`与`手机号码`，在短信编辑界面中，只需要点击左下角的小按钮即可选择你需要的魔法变量，比如：
+In this case, there are two magic variables: `Name` and `Phone Number`. In the SMS editor, simply click the small button in the bottom left corner to select the variable you need, such as:
 
-> ${姓名}，你好，你的手机号为${手机号码}
+> Hello ${Name}, your phone number is ${Phone Number}
 
-届时，软件将会自动根据每行记录来替换此变量：
+The software will automatically replace the variables based on each row of data:
 
-| 姓名 | 手机号码 | 对应的短信内容         |
-|----|------|-----------------|
-| 张三 | 123  | 张三，你好，你的手机号为123 |
-| 李四 | 456  | 李四，你好，你的手机号为456 |
+| Name | Phone Number | Resulting SMS Content                |
+|------|--------------|--------------------------------------|
+| John | 123          | Hello John, your phone number is 123 |
+| Mike | 456          | Hello Mike, your phone number is 456 |
 
-如果帮助到您，请赐予一颗小星星吧:)  
+If this app helps you, please give it a star! :)
 
 ## END
 
-任何软件使用上的问题或者bug欢迎提交issue~
+If you encounter any issues or bugs while using the software, feel free to submit an issue.
 
-**郑重提醒：本项目仅供学习，切勿利用该软件传播违法骚扰内容，使用者行为以及目的与本人无关！**
+**Solemn Reminder: This project is for educational purposes only. Do not use this software to spread illegal or harassing content. The actions and intentions of the users are independent of the developer!**

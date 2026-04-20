@@ -27,6 +27,7 @@ public class HashUtils {
     /**
      * 将任意字符串转为 MD5
      */
+    // Convert any string to MD5
     public static String toMd5(String input) {
         if (TextUtils.isEmpty(input)) return "";
         try {
@@ -41,6 +42,7 @@ public class HashUtils {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             return String.valueOf(input.hashCode()); // 兜底方案
+            // Fallback solution
         }
     }
 }

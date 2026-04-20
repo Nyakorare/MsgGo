@@ -91,6 +91,7 @@ public class SensitiveWordUtil implements IWordAllow, IWordDeny, ISensitiveWordC
     public List<String> allow() {
         return Arrays.asList(
             "近日入职", "联系方式", "考试设备", "精美礼品", "尊敬的用户"
+            // "Recently joined", "Contact information", "Exam equipment", "Exquisite gifts", "Dear user"
         );
     }
 
@@ -98,6 +99,7 @@ public class SensitiveWordUtil implements IWordAllow, IWordDeny, ISensitiveWordC
     public List<String> deny() {
         return Arrays.asList(
             "luo聊", "衣果聊", "衣果耳卯", "贷款", "拖欠", "催收", "涉嫌", "滞纳金", "还款", "违约", "法务"
+            // "luo chat", "Yiguo chat", "Yiguo ear Mao", "loan", "arrears", "collection", "suspected", "late fee", "repayment", "breach of contract", "legal affairs"
         );
     }
 

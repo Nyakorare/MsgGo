@@ -16,7 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: experiment/feature-idea
+          ref: master
 
       - name: Verify version matches tag
         run: |

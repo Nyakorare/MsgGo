@@ -106,6 +106,7 @@ public class EditActivity extends AppCompatActivity {
 
 
         //获取已经保存的内容并显示
+        // Retrieve the saved content and display it
         mEt.setText(DataModel.getTemplate());
         highlight(mEt.getText());
 
@@ -177,11 +178,14 @@ public class EditActivity extends AppCompatActivity {
             }
         });
         //线性布局
-//        RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
-//        mRv.setLayoutManager(manager);
-//        //分割线
-//        mRv.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-//        mRv.setAdapter(adapter);
+        // Linear Layout
+        // RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
+        // mRv.setLayoutManager(manager);
+
+        //分割线
+        // Divider
+        // mRv.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        // mRv.setAdapter(adapter);
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
@@ -192,7 +196,9 @@ public class EditActivity extends AppCompatActivity {
                             .setMessage(getString(R.string.edit_unsaved_msg))
                             .setPositiveButton(getString(R.string.ok), (dialog, which) -> {
                                 setEnabled(false); // 禁用此回调
+                                // Disable this callback to avoid infinite loop
                                 getOnBackPressedDispatcher().onBackPressed(); // 触发系统默认退出
+                                // Trigger system default exit
                             })
                             .setNegativeButton(getString(R.string.cancel), null)
                             .show();
@@ -357,6 +363,7 @@ public class EditActivity extends AppCompatActivity {
     /**
      * 打开编辑器
      */
+    // Open the editor
     public static void openEditor(Context context) {
         if (!DataModel.loaded()) {
             ToastUtil.show(context, context.getString(R.string.error_import_data_first));

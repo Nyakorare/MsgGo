@@ -49,6 +49,10 @@ public class MarkdownActivity extends AppCompatActivity {
      * @param title     工具栏标题
      * @param assetPath Asset 路径
      */
+    // Open the Markdown display interface
+    // Context
+    // Toolbar title
+    // Asset path
     public static void open(Context context, String title, String assetPath) {
         Intent intent = new Intent(context, MarkdownActivity.class);
         intent.putExtra(EXTRA_TITLE, title);
@@ -66,6 +70,7 @@ public class MarkdownActivity extends AppCompatActivity {
     /**
      * 直接通过内容打开
      */
+    // Open directly through content
     public static void openContent(Context context, String title, String content) {
         Intent intent = new Intent(context, MarkdownActivity.class);
         intent.putExtra(EXTRA_TITLE, title);

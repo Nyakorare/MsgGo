@@ -33,6 +33,7 @@ import top.yztz.msggo.R;
 /**
  * 统一 Markwon 实例构建，确保深色/浅色主题下代码块等元素颜色与系统主题一致。
  */
+// Centralized Markwon instance contructor to ensure code block and other element colors match the system theme in both dark and light modes.
 public class MarkwonFactory {
 
     private MarkwonFactory() { }
@@ -40,8 +41,10 @@ public class MarkwonFactory {
     /**
      * 创建适配当前主题（深色/浅色）的 Markwon 实例。
      */
+    // Create a Markwon instance that adapts to the current theme (Dark/light)
     public static Markwon create(@NonNull Context context) {
         // 从 Material 主题中读取颜色
+        // Read colors from Material theme
         int colorSurface = MaterialColors.getColor(context, R.attr.colorSurface, Color.WHITE);
         int colorOnSurface = MaterialColors.getColor(context,R.attr.colorOnSurface, Color.BLACK);
         int colorSurfaceVariant = MaterialColors.getColor(context, R.attr.colorSurfaceVariant, 0xFFE0E0E0);
@@ -50,12 +53,16 @@ public class MarkwonFactory {
         int colorPrimary = MaterialColors.getColor(context, R.attr.colorPrimary, 0xFF256489);
 
         // 代码块背景：使用 surfaceVariant，和正文有适当区分
+        // Code block background: use serfaceVariant for appropriate contrast with main text
         int codeBackground = colorSurfaceVariant;
         // 代码文字颜色：使用 onSurfaceVariant
+        // Code text color: use onSurfaceVariant
         int codeTextColor = colorOnSurfaceVariant;
         // 引用块左侧竖线颜色
+        // Block quote left line color
         int blockQuoteColor = colorPrimary;
         // 分割线颜色
+        // Thematic break color
         int thematicBreakColor = colorOutlineVariant;
 
         return Markwon.builder(context)
@@ -65,14 +72,19 @@ public class MarkwonFactory {
                     public void configureTheme(@NonNull MarkwonTheme.Builder builder) {
                         builder
                                 // 代码块（围栏式）背景
+                                // Fenced code block background
                                 .codeBackgroundColor(codeBackground)
                                 // 行内代码背景
+                                // Inline code background
                                 .codeBackgroundColor(codeBackground)
                                 // 代码文字颜色
+                                // Code text color
                                 .codeTextColor(codeTextColor)
                                 // 引用块左侧竖线
+                                // Block quote left line color
                                 .blockQuoteColor(blockQuoteColor)
                                 // 分割线
+                                // Thematic break color
                                 .thematicBreakColor(thematicBreakColor);
                     }
                 })

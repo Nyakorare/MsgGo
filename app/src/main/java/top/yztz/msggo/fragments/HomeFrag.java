@@ -294,7 +294,7 @@ public class HomeFrag extends Fragment {
             rowEditContent.setVisibility(View.VISIBLE);
 
             String numberColumn = DataModel.getNumberColumn();
-            tvCurrentNumberColumn.setText(TextUtils.isEmpty(numberColumn) ? "未选择" : numberColumn);
+            tvCurrentNumberColumn.setText(TextUtils.isEmpty(numberColumn) ? "未选择" : numberColumn); // Not selected
 //            rowSelectSim.setVisibility(View.VISIBLE);
         } else {
             rowNumberColumn.setVisibility(View.GONE);
@@ -371,6 +371,7 @@ public class HomeFrag extends Fragment {
 
             holder.itemView.setOnClickListener(v -> {
                 Log.i(TAG, "从历史记录加载：" + item.path);
+                // Load from history:
                 dataLoader.loadData(item.path);
             });
         }

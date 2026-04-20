@@ -23,12 +23,14 @@
         android:icon="@drawable/ic_var"
         android:title="魔法变量"
         app:showAsAction="ifRoom"/>
+        <!-- Magic Variable -->
 
     <item
         android:id="@+id/btn_clear"
         android:icon="@drawable/ic_trash"
         android:title="清空内容"
         app:showAsAction="ifRoom"/>
+        <!-- Clear Content -->
 
 <!--    <item-->
 <!--        android:id="@+id/rotation"-->
